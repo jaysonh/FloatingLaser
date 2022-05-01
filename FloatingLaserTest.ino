@@ -1,3 +1,5 @@
+// Use Seeeduino XIAO board
+// Requires IRremote library and MPU9250 library installed in libraries manager
 #include <IRremote.h> 
 #include "MPU9250.h"
 
