@@ -1,0 +1,2 @@
+## About
+Arduino code for receiving an IR msg from a remote control and reads from a photodetector the intensity of a laser projecting downwards. This is used to track a floating plates position as it overs with electromagnets.

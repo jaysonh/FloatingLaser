@@ -1,35 +1,38 @@
 // Use Seeeduino XIAO board
 // Requires IRremote library and MPU9250 library installed in libraries manager
 #include <IRremote.h> 
-#include "MPU9250.h"
-
-MPU9250 mpu; // You can also use MPU9255 as is
-           
 const int irRecvPin = 10;
-const int laserPin  = A7; 
+const int laserOutputPin = A7; 
+
+const int laserSensorPin = A5;
+const int laserDetectPin = A6;
+
+const int irOutputPin = A4;
+
 bool laserOn = false;
 
 long lastRecv = 0;
 long recvThresh = 250; // ms
 
-
 void setup() {
-  pinMode( laserPin, OUTPUT);
+  pinMode( laserOutputPin, OUTPUT);
 
   IrReceiver.begin(irRecvPin); // Initializes the IR receiver object
-  Serial.begin(115200);
-  Wire.begin();
-  delay(2000);
-
-  mpu.setup(0x68);  // change to your own address
-
+  Serial.begin(9600);
+ pinMode( laserSensorPin, OUTPUT);
+ pinMode( irOutputPin, OUTPUT);
+ digitalWrite(laserSensorPin, HIGH);
+ digitalWrite(irOutputPin, HIGH);
+  
 }
 
 void loop() 
 { 
+  int v = analogRead( laserDetectPin );
+  Serial.println(v);
+  
 
-
-  Serial.println(analogRead(A10));
+  //Serial.println(analogRead(A10));
   int result = IrReceiver.decode();
   if (result ) 
   {
@@ -43,12 +46,17 @@ void loop()
           laserOn = !laserOn;
       
           if(laserOn) 
-            digitalWrite(laserPin, HIGH);
+            digitalWrite(laserOutputPin, HIGH);
           else
-            digitalWrite(laserPin, LOW);
+            digitalWrite(laserOutputPin, LOW);
       } 
       lastRecv = millis();
     }    
-  }        
+  } 
+
+         
+  delay(50);
 }
+
+
  
